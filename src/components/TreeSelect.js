@@ -1,5 +1,7 @@
 import React from 'react'
+import Button from 'antd/lib/button';
 import { TreeSelect } from 'antd';
+import { Select } from './Select';
 import { Url } from '../requests/api'
 
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
@@ -134,14 +136,15 @@ class Trees extends React.Component {
     }
 
     render() {
+        const trees = [0, 1, 2, 3, 4, 5].map(x => <Tree data={this.state.data} key={x.toString()} />)
         const el = (
             <div>
-                <Tree data={this.state.data} n='0' />
-                <Tree data={this.state.data} n='1' />
-                <Tree data={this.state.data} n='2' />
-                <Tree data={this.state.data} n='3' />
-                <Tree data={this.state.data} n='4' />
-                <Tree data={this.state.data} n='5' />
+                <div>
+                    <Select />
+                    <Button type="primary">Plot</Button>
+                    <Button type="danger">Plot All Again</Button>
+                </div>
+                <div>{trees}</div>
             </div>
         );
         return el;
