@@ -9,12 +9,14 @@ function callback(key) {
 }
 
 function Tab() {
+    const tabs = [1, 2, 3, 4, 5].map(x => <TabPane tab={"plot " + x.toString()} key={x.toString()}>plot {x}</TabPane>)
+
     const el = (
         <Tabs onChange={callback} type="card">
-            <TabPane tab="data" key="1"><Trees /></TabPane>
-            <TabPane tab="plot 1" key="2">plot 1</TabPane>
-            <TabPane tab="plot 2" key="3">plot 2</TabPane>
-            <TabPane tab="plot 3" key="4">plot 3</TabPane>
+            <TabPane tab="data" key="0">
+                <Trees />
+            </TabPane>
+            {tabs}
         </Tabs>
     )
     return el

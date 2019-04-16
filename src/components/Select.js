@@ -4,9 +4,6 @@ import { Url } from '../requests/api'
 
 const Option = Sel.Option;
 
-function handleChange(value) {
-    console.log(`selected ${value}`);
-}
 
 function handleBlur() {
     console.log('blur');
@@ -23,6 +20,7 @@ class Select extends React.Component {
         super(props);
         this.state = {
             data: [],
+            value: '',
         }
     }
 
@@ -31,6 +29,15 @@ class Select extends React.Component {
             .then(res => res.json())
             .then(response => this.setState({ data: response.ids }))
             .catch(error => console.error('Error:', error))
+    }
+
+    handleChange(v) {
+        this.setState({ value: v })
+        console.log(`selected ${v}`);
+    }
+
+    selected() {
+        return 1
     }
 
     render() {
@@ -43,7 +50,7 @@ class Select extends React.Component {
                 style={{ width: 200 }}
                 placeholder="Select a company"
                 optionFilterProp="children"
-                onChange={handleChange}
+                onChange={this.handleChange.bind(this)}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}

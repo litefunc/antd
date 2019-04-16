@@ -95,12 +95,12 @@ class Tree extends React.Component {
         this.state = {
             value: [], // the selected nodes' values
         }
-        console.log(this.props);
     }
 
     onChange = (value) => {
         console.log('onChange ', value);
         this.setState({ value });
+        this.props.onChange(this.props.n, value)
     }
 
     render() {
@@ -125,6 +125,8 @@ class Trees extends React.Component {
         super(props);
         this.state = {
             data: [],
+            selected: <Select />,
+            trees: {},
         }
     }
 
@@ -135,12 +137,26 @@ class Trees extends React.Component {
             .catch(error => console.error('Error:', error))
     }
 
+    plot() {
+        console.log(this.state.selected.selected())
+    }
+
+    setTrees(k, v) {
+        this.setState({ trees: this.setTreeValue(this.state.trees, k, v) })
+        console.log(this.state.trees);
+    }
+
+    setTreeValue(trees, k, v) {
+        trees[k] = v
+        return trees
+    }
+
     render() {
-        const trees = [0, 1, 2, 3, 4, 5].map(x => <Tree data={this.state.data} key={x.toString()} />)
+        const trees = [0, 1, 2, 3, 4, 5].map(x => <Tree data={this.state.data} key={x.toString()} n={x.toString()} onChange={this.setTrees.bind(this)} />)
         const el = (
             <div>
                 <div>
-                    <Select />
+                    {this.state.selected}
                     <Button type="primary">Plot</Button>
                     <Button type="danger">Plot All Again</Button>
                 </div>
