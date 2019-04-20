@@ -9,8 +9,20 @@ function NewDygraph(setup, div, data, labels) {
         return x
     })
     console.log(d);
-    return new Dygraph(div, d, { labels: labels });
-    // return new Dygraph(div, data, opt);
+    const opt = {
+        labels: labels,
+        showRangeSelector: true,
+        interactionModel: Dygraph.defaultInteractionModel,
+        legend: 'follow',
+        labelsSeparateLines: true,
+        connectSeparatedPoints: false,
+        highlightSeriesOpts: {
+            strokeWidth: 2,
+            strokeBorderWidth: 1,
+            highlightCircleSize: 3
+        }
+    }
+    return new Dygraph(div, d, opt);
 }
 
 function dygraph(x) {
