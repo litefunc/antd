@@ -34,6 +34,7 @@ class Select extends React.Component {
     handleChange(v) {
         this.setState({ value: v })
         console.log(`selected ${v}`);
+        this.props.onChange(v)
     }
 
     selected() {
@@ -62,6 +63,5 @@ class Select extends React.Component {
         return el;
     }
 }
-
 
 export { Select }
