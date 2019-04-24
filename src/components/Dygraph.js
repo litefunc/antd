@@ -33,9 +33,10 @@ function dygraph(x) {
             'Content-Type': 'application/json'
         })
     }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
         // .then(response => console.log('Success:', response))
-        .then(response => NewDygraph(x.setup, x.div, response.data, response.labels));
+        .then(response => NewDygraph(x.setup, x.div, response.data, response.labels))
+        .then(g => x.setGraph(g))
+        .catch(error => console.error('Error:', error));
 }
 
 export { dygraph }

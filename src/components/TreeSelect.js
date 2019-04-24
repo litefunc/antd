@@ -16,6 +16,9 @@ class Trees extends React.Component {
             data: [],
             selected: '',
             trees: {},
+            graphs: {
+
+            }
         }
     }
 
@@ -38,7 +41,17 @@ class Trees extends React.Component {
         let trees = this.state.trees;
         for (let k of Object.keys(trees)) {
             console.log(k, trees[k])
-            dygraph({ setup: () => this.props.activeTab(k), div: "plot " + k, id: this.state.selected.split(" ")[0], cols: trees[k] })
+            const o = {
+                setup: () => this.props.activeTab(k),
+                div: "plot " + k,
+                id: this.state.selected.split(" ")[0],
+                cols: trees[k],
+                setGraph: (g) => {
+                    this.setState({ graphs: this.setGraph(this.state.graphs, "plot " + k, g) });
+                    console.log(this.state.graphs);
+                },
+            }
+            dygraph(o)
         }
 
     }
@@ -51,6 +64,11 @@ class Trees extends React.Component {
     setTreeValue(trees, k, v) {
         trees[k] = v
         return trees
+    }
+
+    setGraph(graphs, k, v) {
+        graphs[k] = v
+        return graphs
     }
 
 
