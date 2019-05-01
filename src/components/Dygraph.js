@@ -1,6 +1,8 @@
 import React from 'react'
 import Dygraph from 'dygraphs';
 import { Url } from '../requests/api'
+import { transpose } from '../funcs/array'
+import { normalize } from '../funcs/math'
 
 
 class Graph {
@@ -19,12 +21,40 @@ class Graph {
 
     async plot() {
         try {
-            const res = await postData(this._id, this._cols)
-            this._setup()
+            const res = await postData(this._id, this._cols);
+            this._data = res.data;
+            this._setup();
             const g = NewDygraph(this._div, res.data, res.labels);
             this._graph = g;
+
         } catch (e) {
-            console.error('Error:', e)
+            console.error('Error:', e);
+        }
+    }
+
+    async normalize() {
+        try {
+
+            if (this._data_normalized != undefined) {
+                this._graph.updateOptions({ 'file': this._data_normalized })
+                return
+            }
+
+            if (this._data != undefined) {
+                const tr = transpose(this._data);
+                const date = tr[0]
+                let data = [date]
+                for (let row of tr.slice(1)) {
+                    let n = normalize(row)
+                    data.push(n)
+                }
+
+                this._data_normalized = transpose(data);
+                this._graph.updateOptions({ 'file': this._data_normalized })
+            }
+
+        } catch (e) {
+            console.error('Error:', e);
         }
     }
 
