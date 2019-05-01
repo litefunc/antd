@@ -12,11 +12,23 @@ class Tab extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            keys: [1, 2, 3, 4, 5, 6],
             active: '0',
             graphs: {
 
+            },
+            normalize: {
+
             }
         }
+    }
+
+    componentDidMount() {
+        let ns = {}
+        for (let x of this.state.keys) {
+            ns["plot " + x.toString()] = false
+        }
+        this.setState({ normalize: ns })
     }
 
     active(key) {
@@ -24,12 +36,13 @@ class Tab extends React.Component {
         this.setState({ active: key })
     }
 
-    onChange(i) {
+    onChange(k) {
         const f = (e) => {
-            console.log(`checked${i} = ${e.target.checked}`);
+            console.log(`checked ${k} = ${e.target.checked}`);
+            this.setState({ normalize: this.setNormalize(this.state.normalize, k, e.target.checked) })
+
             const gs = this.state.graphs
             console.log(gs)
-            const k = 'plot ' + i
 
             if (gs[k] == undefined) {
                 return
@@ -48,9 +61,26 @@ class Tab extends React.Component {
         this.setState({ graphs: gs })
     }
 
+    setNormalize(ns, k, v) {
+        ns[k] = v
+        return ns
+    }
+
+    format(k) {
+        const gs = this.state.graphs
+        if (gs[k] == undefined) {
+            return
+        }
+        if (this.state.normalize[k]) {
+            this.state.graphs[k].normalize()
+        } else {
+            this.state.graphs[k].rawData()
+        }
+    }
+
     render() {
 
-        const keys = [1, 2, 3, 4, 5, 6]
+        const keys = this.state.keys
 
         const style = {
             position: 'relative',
@@ -61,7 +91,7 @@ class Tab extends React.Component {
 
         const tabs = keys.map(x => (
             <TabPane tab={"plot " + x.toString()} key={x.toString()}>
-                <Checkbox onChange={this.onChange(x).bind(this)}>normalize</Checkbox>
+                <Checkbox onChange={this.onChange("plot " + x.toString()).bind(this)}>normalize</Checkbox>
                 <div id={"plot " + x.toString()} className="dygraph" style={style}>
 
                 </div>
