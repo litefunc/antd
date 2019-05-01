@@ -3,10 +3,29 @@ import Button from 'antd/lib/button';
 import { TreeSelect } from 'antd';
 import { Select } from './Select';
 import { Url } from '../requests/api'
-import { dygraph } from "./Dygraph";
+import { dygraph, Graph } from "./Dygraph";
 
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
+
+class Test1 extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: [1, 2, 3], // the selected nodes' values
+        }
+    }
+
+    getValue = () => {
+        console.log('value ', this.state.value);
+        return this.state.value
+    }
+
+    // render() {
+    //     return;
+    // }
+}
 
 class Trees extends React.Component {
 
@@ -35,6 +54,10 @@ class Trees extends React.Component {
     }
 
     plot() {
+        let t = new Test1();
+
+        console.log(t.getValue());
+        console.log(t.state);
         console.log(this.state.selected);
         console.log(this.state.trees);
 
@@ -51,7 +74,11 @@ class Trees extends React.Component {
                     console.log(this.state.graphs);
                 },
             }
-            dygraph(o)
+            // dygraph(o)
+            let g = new Graph(o.div, o.id, o.cols, o.setup);
+            g.plot();
+            o.setGraph(g);
+
         }
 
     }
@@ -122,5 +149,7 @@ class Tree extends React.Component {
         return <TreeSelect {...tProps} />;
     }
 }
+
+
 
 export { Trees }
