@@ -32,6 +32,18 @@ class Graph {
         }
     }
 
+    async rawData() {
+        try {
+            if (this._data != undefined) {
+                this._graph.updateOptions({ 'file': this._data })
+                return
+            }
+
+        } catch (e) {
+            console.error('Error:', e);
+        }
+    }
+
     async normalize() {
         try {
 

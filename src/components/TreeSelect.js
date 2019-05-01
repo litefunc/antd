@@ -80,6 +80,8 @@ class Trees extends React.Component {
             o.setGraph(g);
 
         }
+        console.log(this.state.graphs);
+        this.props.setGraphs(this.state.graphs);
 
     }
 
