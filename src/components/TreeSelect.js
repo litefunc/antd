@@ -73,9 +73,13 @@ class Trees extends React.Component {
                     this.setState({ graphs: this.setGraph(this.state.graphs, "plot " + k, g) });
                     console.log(this.state.graphs);
                 },
+                normalized: () => {
+                    const n = this.props.getNormalize()
+                    return n["plot " + k]
+                }
             }
             // dygraph(o)
-            let g = new Graph(o.div, o.id, o.cols, o.setup);
+            let g = new Graph(o.div, o.id, o.cols, o.setup, o.normalized);
             g.plot();
             o.setGraph(g);
 

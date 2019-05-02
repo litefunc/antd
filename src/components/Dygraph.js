@@ -7,11 +7,12 @@ import { normalize } from '../funcs/math'
 
 class Graph {
 
-    constructor(div, id, cols, setup) {
+    constructor(div, id, cols, setup, normalized) {
         this._div = div;
         this._id = id;
         this._cols = cols;
         this._setup = setup;
+        this.normalized = normalized;
     }
 
     graph() {
@@ -26,6 +27,9 @@ class Graph {
             this._setup();
             const g = NewDygraph(this._div, res.data, res.labels);
             this._graph = g;
+            if (this.normalized()) {
+                await this.normalize();
+            }
 
         } catch (e) {
             console.error('Error:', e);

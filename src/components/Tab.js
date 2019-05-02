@@ -66,6 +66,10 @@ class Tab extends React.Component {
         return ns
     }
 
+    getNormalize() {
+        return this.state.normalize
+    }
+
     format(k) {
         const gs = this.state.graphs
         if (gs[k] == undefined) {
@@ -101,7 +105,7 @@ class Tab extends React.Component {
         const el = (
             <Tabs onChange={this.active.bind(this)} type="card" activeKey={this.state.active}>
                 <TabPane tab="data" key="0">
-                    <Trees tabKeys={keys} activeTab={this.active.bind(this)} setGraphs={this.setGraphs.bind(this)} />
+                    <Trees tabKeys={keys} activeTab={this.active.bind(this)} setGraphs={this.setGraphs.bind(this)} getNormalize={this.getNormalize.bind(this)} />
                     <div id="plot 0"></div>
                 </TabPane>
                 {tabs}
